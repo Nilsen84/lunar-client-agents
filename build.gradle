@@ -1,0 +1,44 @@
+apply plugin: 'base'
+
+allprojects {
+    group 'me.onils'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = targetCompatibility = 16
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.ow2.asm:asm:9.2'
+        compileOnly 'org.ow2.asm:asm-tree:9.2'
+    }
+
+    ext {
+        agentClass = ''
+    }
+
+    afterEvaluate {
+        jar {
+            manifest.attributes(
+                'Can-Retransform-Classes': true,
+                'Premain-Class': agentClass,
+                'Agent-Class': agentClass
+            )
+        }
+    }
+}
+
+task buildAll {
+    doFirst {
+        subprojects {
+            jar.destinationDirectory.set(rootProject.buildDir)
+        }
+    }
+
+    finalizedBy subprojects.build
+}
