@@ -18,3 +18,6 @@ Removes pinned servers.
 
 #### StaffEnable:
 Enables staff only mods (currently just xray). Here's a showcase of lunars built-in xray: https://www.youtube.com/watch?v=xWZsFqH9TwQ
+
+#### TeamsAutoGG:
+Makes auto gg work in teams duels.

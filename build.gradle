@@ -18,10 +18,6 @@ subprojects {
         compileOnly 'org.ow2.asm:asm-tree:9.2'
     }
 
-    ext {
-        agentClass = ''
-    }
-
     afterEvaluate {
         jar {
             manifest.attributes(
