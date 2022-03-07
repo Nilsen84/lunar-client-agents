@@ -18,14 +18,12 @@ subprojects {
         compileOnly 'org.ow2.asm:asm-tree:9.2'
     }
 
-    afterEvaluate {
-        jar {
-            manifest.attributes(
-                'Can-Retransform-Classes': true,
-                'Premain-Class': agentClass,
-                'Agent-Class': agentClass
-            )
-        }
+    jar {
+        manifest.attributes(
+            'Can-Retransform-Classes': true,
+            'Premain-Class': agentClass,
+            'Agent-Class': agentClass
+        )
     }
 }
 

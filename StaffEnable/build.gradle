@@ -1,3 +1,0 @@
-ext {
-    agentClass = 'me.onils.staffenable.Agent'
-}
