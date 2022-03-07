@@ -21,3 +21,6 @@ Enables staff only mods (currently just xray). Here's a showcase of lunars built
 
 #### TeamsAutoGG:
 Makes auto gg work in teams duels.
+
+#### RemovePlus:
+Removes the lunar+ plus from the icon.
