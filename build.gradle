@@ -24,15 +24,7 @@ subprojects {
             'Premain-Class': agentClass,
             'Agent-Class': agentClass
         )
-    }
-}
 
-task buildAll {
-    doFirst {
-        subprojects {
-            jar.destinationDirectory.set(rootProject.buildDir)
-        }
+        destinationDirectory.set(rootProject.buildDir)
     }
-
-    finalizedBy subprojects.build
 }
