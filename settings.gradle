@@ -1,5 +1,6 @@
 rootProject.name = 'lunar-client-agents'
 
+include 'CrackedAccount'
 include 'LunarEnable'
 include 'HitDelayFix'
 include 'NoPinnedServers'
