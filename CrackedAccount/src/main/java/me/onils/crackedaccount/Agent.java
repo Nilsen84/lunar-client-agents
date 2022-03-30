@@ -83,6 +83,8 @@ public class Agent {
             }
         });
 
+        if(username.isEmpty()) return;
+
         inst.addTransformer(new ClassFileTransformer() {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
