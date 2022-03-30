@@ -57,8 +57,6 @@ public class Agent {
 
                 if(!containsString(constructor, "multiplayer")) return classfileBuffer;
 
-                System.err.println("[CrackedAccount] found main menu class!");
-
                 boolean injected = false;
 
                 for(MethodNode methodNode : cn.methods){
@@ -76,8 +74,6 @@ public class Agent {
                 }
 
                 if(injected){
-                    System.err.println("[CrackedAccount] injected");
-
                     ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_FRAMES);
                     cn.accept(cw);
                     return cw.toByteArray();
