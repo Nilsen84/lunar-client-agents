@@ -101,18 +101,27 @@ public class Agent {
 
                         if(name.equals("main")){
                             return new MethodVisitor(Opcodes.ASM9, methodVisitor) {
-                                boolean injected = false;
+                                boolean foundUsernameString = false;
 
                                 @Override
-                                public void visitMethodInsn(int opcode, String owner, String name, String descriptor,
-                                                            boolean isInterface) {
-                                    super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
-
-                                    if(owner.equals("java/lang/StringBuilder") && name.equals("toString") && !injected){
-                                        super.visitInsn(Opcodes.POP);
+                                public void visitTypeInsn(int opcode, String type) {
+                                    if(opcode == Opcodes.ANEWARRAY && foundUsernameString){
+                                        super.visitInsn(Opcodes.POP2);
                                         super.visitLdcInsn(username);
-                                        injected = true;
+                                        super.visitInsn(Opcodes.ICONST_0);
+
+                                        foundUsernameString = false;
                                     }
+                                    super.visitTypeInsn(opcode, type);
+                                }
+
+                                @Override
+                                public void visitLdcInsn(Object value) {
+                                    if("username".equals(value)){
+                                        foundUsernameString = true;
+                                    }
+
+                                    super.visitLdcInsn(value);
                                 }
                             };
                         }
