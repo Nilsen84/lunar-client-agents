@@ -1,4 +1,4 @@
-package me.onils.nopinnedservers;
+package me.onils.lunarenable;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
@@ -15,18 +15,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Transformer implements ClassFileTransformer {
+public class MetadataTransformer implements ClassFileTransformer {
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (!className.startsWith("lunar/")) {
+        if(!className.startsWith("lunar/"))
             return classfileBuffer;
-        }
 
         ClassReader cr = new ClassReader(classfileBuffer);
 
-        if(!cr.getSuperName().startsWith("lunar/")){
+        if(!cr.getSuperName().startsWith("lunar/"))
             return classfileBuffer;
-        }
 
         ClassNode cn = new ClassNode();
         cr.accept(cn, 0);
@@ -35,8 +33,9 @@ public class Transformer implements ClassFileTransformer {
             if(!method.desc.equals("(Lcom/google/gson/JsonElement;)V")) continue;
 
             Set<String> stringsToMatch = new HashSet<>();
-            stringsToMatch.add("versions");
-            stringsToMatch.add("name");
+            stringsToMatch.add("ip");
+            stringsToMatch.add("brand");
+            stringsToMatch.add("modSettings");
 
             boolean matchesAllStrings = Arrays.stream(method.instructions.toArray())
                     .filter(LdcInsnNode.class::isInstance)
@@ -44,6 +43,7 @@ public class Transformer implements ClassFileTransformer {
                     .map(ldc -> ldc.cst)
                     .filter(stringsToMatch::remove)
                     .anyMatch(__ -> stringsToMatch.isEmpty());
+
             if(matchesAllStrings){
                 method.instructions.clear();
                 method.localVariables.clear();

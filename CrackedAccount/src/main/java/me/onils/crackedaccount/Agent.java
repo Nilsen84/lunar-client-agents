@@ -7,8 +7,17 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
+import java.util.Arrays;
 
 public class Agent {
+    public static String[] modifyArgs(String[] args, String username){
+        args = Arrays.copyOf(args, args.length+2);
+        args[args.length-2] = "--username";
+        args[args.length-1] = username;
+
+        return args;
+    }
+
     static MethodNode getConstructor(ClassNode cn){
         for(MethodNode methodNode : cn.methods){
             if(methodNode.name.equals("<init>")){
@@ -59,6 +68,7 @@ public class Agent {
 
                 boolean injected = false;
 
+                methodLoop:
                 for(MethodNode methodNode : cn.methods){
                     if((methodNode.access & Opcodes.ACC_SYNTHETIC) == 0) continue;
 
@@ -68,6 +78,8 @@ public class Agent {
                                 methodNode.instructions.insertBefore(insnNode, new InsnNode(Opcodes.POP));
                                 ((JumpInsnNode)insnNode).setOpcode(Opcodes.GOTO);
                                 injected = true;
+
+                                continue methodLoop;
                             }
                         }
                     }
@@ -101,27 +113,14 @@ public class Agent {
 
                         if(name.equals("main")){
                             return new MethodVisitor(Opcodes.ASM9, methodVisitor) {
-                                boolean foundUsernameString = false;
-
                                 @Override
-                                public void visitTypeInsn(int opcode, String type) {
-                                    if(opcode == Opcodes.ANEWARRAY && foundUsernameString){
-                                        super.visitInsn(Opcodes.POP2);
-                                        super.visitLdcInsn(username);
-                                        super.visitInsn(Opcodes.ICONST_0);
+                                public void visitCode() {
+                                    super.visitVarInsn(Opcodes.ALOAD, 0);
+                                    super.visitLdcInsn(username);
+                                    super.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(Agent.class), "modifyArgs", "([Ljava/lang/String;Ljava/lang/String;)[Ljava/lang/String;", false);
+                                    super.visitVarInsn(Opcodes.ASTORE, 0);
 
-                                        foundUsernameString = false;
-                                    }
-                                    super.visitTypeInsn(opcode, type);
-                                }
-
-                                @Override
-                                public void visitLdcInsn(Object value) {
-                                    if("username".equals(value)){
-                                        foundUsernameString = true;
-                                    }
-
-                                    super.visitLdcInsn(value);
+                                    super.visitCode();
                                 }
                             };
                         }
