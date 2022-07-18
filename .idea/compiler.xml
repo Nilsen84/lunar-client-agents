@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
+        </processorPath>
+        <module name="lunar-client-agents.agents.NoPinnedServers.main" />
+        <module name="lunar-client-agents.agents.StaffEnable.main" />
+        <module name="lunar-client-agents.agents.LunarPacksFix.main" />
+        <module name="lunar-client-agents.agents.CustomAutoGG.main" />
+        <module name="lunar-client-agents.agents.CrackedAccount.main" />
+        <module name="lunar-client-agents.agents.TeamsAutoGG.main" />
+        <module name="lunar-client-agents.agents.HitDelayFix.main" />
+        <module name="lunar-client-agents.agents.CustomLevelHead.main" />
+        <module name="lunar-client-agents.commons.main" />
+        <module name="lunar-client-agents.agents.RemovePlus.main" />
+        <module name="lunar-client-agents.agents.LunarEnable.main" />
+        <module name="lunar-client-agents.agents.LevelHeadNicks.main" />
+      </profile>
+    </annotationProcessing>
     <bytecodeTargetLevel target="16" />
   </component>
 </project>

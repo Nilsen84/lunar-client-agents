@@ -1,0 +1,40 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+
+plugins {
+    id 'base'
+    id 'com.github.johnrengelman.shadow' version '7.1.2' apply false
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    dependencies {
+        implementation project(':commons')
+    }
+
+    jar {
+        manifest.attributes(
+                'Can-Retransform-Classes': true,
+                'Premain-Class': agentClass,
+                'Agent-Class': agentClass
+        )
+    }
+
+    build {
+        dependsOn = [shadowJar]
+    }
+
+    task relocateShadowJar(type: ConfigureShadowRelocation) {
+        target = tasks.shadowJar
+        prefix = project.name
+    }
+
+    shadowJar {
+        archiveClassifier.set('')
+
+        destinationDirectory.set(this.buildDir)
+
+        dependsOn relocateShadowJar
+    }
+}
