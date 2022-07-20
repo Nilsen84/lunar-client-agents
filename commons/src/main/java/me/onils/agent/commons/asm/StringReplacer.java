@@ -21,7 +21,7 @@ public class StringReplacer extends ClassVisitor {
         return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
             @Override
             public void visitLdcInsn(Object value) {
-                super.visitLdcInsn(value.equals(from) ? to : value);
+                super.visitLdcInsn(from.equals(value) ? to : value);
             }
         };
     }

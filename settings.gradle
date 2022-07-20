@@ -1,9 +1,8 @@
 rootProject.name = 'lunar-client-agents'
 
-include 'commons'
+include 'commons', 'agents'
 
-new File('agents').eachDir {
-    if(it.name != 'build'){
+file('agents').eachDir {
+    if(it.name != 'build')
         include "agents:$it.name"
-    }
 }
