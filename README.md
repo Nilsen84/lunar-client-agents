@@ -6,7 +6,8 @@ Various agents that can be used with https://github.com/Nilsen84/lunar-client-qt
 Lets you play on singleplayer & cracked servers with lunar. The username is supplied through the agent option.
 
 #### HitDelayFix: 
-You might have noticed how your sword randomly stops swinging even though you're clicking in 1.8. This agent removes that random cooldown.  
+You might have noticed how your sword rand
+omly stops swinging even though you're clicking in 1.8. This agent removes that random cooldown.  
   
 This is technically an unfair advantage, so use it at your own risk.
 
